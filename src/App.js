@@ -1,24 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Navigation from './appNavigation/AppNavigation';
+import Footer from './outline/Footer';
+import { createContext, useState } from 'react';
+import { useTranslation, t } from 'react-i18next';
+export const CartContext = createContext()
 function App() {
+  const [cart, setCart] = useState({})
+  const { i18n } = useTranslation();
+  if (localStorage.getItem("Lang-pref") == null) {
+    localStorage.setItem("Lang-pref", i18n.language)
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <CartContext.Provider value={{ cart, setCart }}>
+        <Navigation />
+
+      </CartContext.Provider>
+
+      <Footer />
+
+    </div >
   );
 }
 
